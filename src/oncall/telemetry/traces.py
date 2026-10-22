@@ -19,6 +19,10 @@ _KEPT_ATTRIBUTES = (
 
 
 class TraceBackend(Protocol):
+    def services(self) -> list[str]:
+        """Names of all traced services. Raises BackendError."""
+        ...
+
     def find_traces(
         self, service: str, start: datetime, end: datetime, limit: int,
         operation: str | None = None, errors_only: bool = False,
@@ -36,6 +40,10 @@ class JaegerTraces:
     def __init__(self, config: Backend, client: httpx.Client | None = None) -> None:
         self._url = config.url.rstrip("/")
         self._client = client or httpx.Client(timeout=config.timeout_seconds)
+
+    def services(self) -> list[str]:
+        body = request_json(self._client, "GET", f"{self._url}/api/services", backend="jaeger")
+        return sorted(_data(body))
 
     def find_traces(
         self, service: str, start: datetime, end: datetime, limit: int,

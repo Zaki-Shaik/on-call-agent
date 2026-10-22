@@ -21,7 +21,7 @@ from oncall.jobs import JobQueue
 
 log = logging.getLogger(__name__)
 
-OPEN_STATUSES = ["queued", "investigating", "awaiting_approval"]
+OPEN_STATUSES = ["queued", "investigating", "reported", "awaiting_approval"]
 
 
 class Outcome(StrEnum):

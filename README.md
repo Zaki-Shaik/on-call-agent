@@ -40,10 +40,17 @@ compose.demo.yaml      local dev: OpenTelemetry Demo + compose.yaml
 deploy/demo/upstream/  demo compose + config files (git-ignored copy, 3.1.0)
 deploy/demo/           our changes to demo services
 profiles/              one system profile per monitored system
-src/oncall/            api (FastAPI), worker, profile loader
+src/oncall/            api (FastAPI), worker, telemetry adapters, tools, service map, profile loader
 tests/                 pytest, with recorded fixtures
 docs/                  phase notes and check results
 ```
+
+## The agent
+
+Each incident is investigated by a LangGraph agent in the worker (see `docs/phase4-agent-graph.md`).
+It uses Azure OpenAI; set `ONCALL_AZURE_OPENAI_ENDPOINT`, `ONCALL_AZURE_OPENAI_API_KEY` and
+`ONCALL_AGENT_DEPLOYMENT` in `.env` (see `.env.example`). Without them, investigations still run
+and end in an inconclusive report written by code.
 
 ## Calling the agent's tools by hand
 
@@ -53,10 +60,21 @@ docker exec oncall-worker python -m oncall.cli metrics  <incident-id> --service 
 docker exec oncall-worker python -m oncall.cli traces   <incident-id> --service checkout
 docker exec oncall-worker python -m oncall.cli logs     <incident-id> --service payment --min-severity warn
 docker exec oncall-worker python -m oncall.cli changes  <incident-id>
+docker exec oncall-worker python -m oncall.cli service-map <incident-id> --service checkout [--hops 2]
 docker exec oncall-worker python -m oncall.cli evidence <incident-id> [E3]
+docker exec oncall-worker python -m oncall.cli report   <incident-id>
 ```
 
 The window defaults to 15 minutes before the incident opened until now; override with `--start`/`--end`.
+
+The healthy service map (built from traces by the worker, refreshed hourly):
+
+```sh
+docker exec oncall-worker python -m oncall.cli map                         # table
+docker exec oncall-worker python -m oncall.cli map --service checkout --hops 2
+docker exec oncall-worker python -m oncall.cli map --format mermaid        # paste into a GitHub comment
+docker exec oncall-worker python -m oncall.cli map --rebuild
+```
 
 ## Tests
 

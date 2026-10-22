@@ -94,6 +94,24 @@ def test_job_of_crashed_worker_is_reclaimed_after_lease(redis_client, pool) -> N
     assert pending(redis_client) == 0
 
 
+def test_heartbeat_keeps_a_long_job_from_being_taken_over(redis_client, pool) -> None:
+    lease = timedelta(milliseconds=300)
+    incident_id = new_incident(pool)
+    JobQueue(redis_client, STREAM).enqueue(incident_id)
+    other = make(redis_client, pool, Handler(), name="w2", lease=lease)
+    took_over = []
+
+    def slow_investigation(_: UUID) -> None:
+        time.sleep(0.6)  # twice the lease
+        took_over.append(other.poll_once(block_ms=50))
+        assert incident(pool, incident_id)["lease_expires_at"] > datetime.now(timezone.utc)
+
+    make(redis_client, pool, slow_investigation, name="w1", lease=lease).poll_once(block_ms=100)
+
+    assert took_over == [False]
+    assert pending(redis_client) == 0
+
+
 def test_job_failing_repeatedly_is_dropped(redis_client, pool) -> None:
     incident_id = new_incident(pool)
     JobQueue(redis_client, STREAM).enqueue(incident_id)

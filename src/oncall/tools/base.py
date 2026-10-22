@@ -3,6 +3,7 @@
 from dataclasses import dataclass
 from enum import StrEnum
 from math import floor, log10
+from typing import TYPE_CHECKING
 from uuid import UUID
 
 from psycopg_pool import ConnectionPool
@@ -11,6 +12,9 @@ from oncall.evidence import EvidenceDraft, EvidenceStore
 from oncall.links import Linker
 from oncall.profile import SystemProfile
 from oncall.telemetry.factory import Backends
+
+if TYPE_CHECKING:  # the service map imports this module
+    from oncall.servicemap.store import ServiceMaps
 
 
 class Status(StrEnum):
@@ -29,6 +33,7 @@ class ToolContext:
     evidence: EvidenceStore
     pool: ConnectionPool
     incident_id: UUID
+    maps: "ServiceMaps | None" = None
 
     def save(self, drafts: list[EvidenceDraft]) -> list[str]:
         return self.evidence.save(self.incident_id, drafts)

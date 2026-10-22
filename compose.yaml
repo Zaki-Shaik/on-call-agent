@@ -73,6 +73,11 @@ services:
     image: oncall:dev
     container_name: oncall-worker
     command: ["python", "-m", "oncall.worker"]
+    # Model settings (ONCALL_AZURE_OPENAI_*, ONCALL_AGENT_DEPLOYMENT, ...) come from the git-ignored
+    # .env, so the key never lands in a tracked file. `environment` below wins over it.
+    env_file:
+      - path: .env
+        required: false
     environment: *oncall-env
     volumes:
       - ./profiles:/app/profiles:ro

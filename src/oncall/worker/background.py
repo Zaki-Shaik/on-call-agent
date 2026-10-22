@@ -1,7 +1,9 @@
-"""Background tasks that must run in exactly one worker: the sweeper and the change recorder.
+"""Background tasks that must run in exactly one worker: the sweeper, the change recorder and
+the service map rebuild.
 
 Leadership is a Postgres session advisory lock held on a dedicated connection. If the leader
-dies, its connection closes, the lock is released, and another worker takes over.
+dies, its connection closes, the lock is released, and another worker takes over. Each group of
+tasks has its own lock and thread, so a slow map build never delays the 5-second flag poll.
 """
 
 import logging
@@ -19,7 +21,8 @@ from oncall.jobs import JobQueue
 
 log = logging.getLogger(__name__)
 
-_LEADER_LOCK_ID = 7_301_002
+LEADER_LOCK_ID = 7_301_002
+MAP_LEADER_LOCK_ID = 7_301_003
 
 
 def sweep_stuck_incidents(pool: ConnectionPool, queue: JobQueue, older_than: timedelta) -> list[UUID]:
@@ -46,8 +49,10 @@ class Task:
 
 
 class LeaderTasks(threading.Thread):
-    def __init__(self, database_url: str, tasks: list[Task], stop: threading.Event) -> None:
-        super().__init__(name="leader-tasks", daemon=True)
+    def __init__(self, database_url: str, tasks: list[Task], stop: threading.Event,
+                 lock_id: int = LEADER_LOCK_ID) -> None:
+        super().__init__(name=f"leader-tasks-{lock_id}", daemon=True)
+        self._lock_id = lock_id
         self._url = database_url
         self._tasks = tasks
         self._stop = stop
@@ -58,12 +63,12 @@ class LeaderTasks(threading.Thread):
             try:
                 if conn is None or conn.closed:
                     conn = psycopg.connect(self._url, autocommit=True)
-                    if not conn.execute("SELECT pg_try_advisory_lock(%s)", (_LEADER_LOCK_ID,)).fetchone()[0]:
+                    if not conn.execute("SELECT pg_try_advisory_lock(%s)", (self._lock_id,)).fetchone()[0]:
                         conn.close()
                         conn = None
                         self._stop.wait(15)  # another worker leads; check again later
                         continue
-                    log.info("this worker now runs the sweeper and change recorder")
+                    log.info("this worker now runs: %s", ", ".join(t.name for t in self._tasks))
                 self._run_due()
             except psycopg.Error:
                 log.exception("leader connection lost; retrying")

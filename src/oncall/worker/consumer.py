@@ -5,11 +5,14 @@ Delivery guarantees:
   pending and is reclaimed (XAUTOCLAIM) once it has been idle longer than the lease.
 - The lease on the incident makes the handler run at most once at a time per incident, even
   when the same incident is enqueued twice (the sweeper re-enqueues stuck incidents).
+- While the handler runs, a heartbeat renews the lease and the stream entry's claim, so a long
+  investigation is not mistaken for a dead worker. Only a worker that stops beating loses its job.
 """
 
 import logging
 import threading
-from collections.abc import Callable
+from collections.abc import Callable, Iterator
+from contextlib import contextmanager
 from datetime import timedelta
 from uuid import UUID
 
@@ -93,13 +96,38 @@ class Consumer:
             self._redis.xack(self._stream, GROUP, entry_id)
             return
         try:
-            self._handler(incident_id)
+            with self._heartbeat(entry_id, incident_id):
+                self._handler(incident_id)
         except Exception:
             # Leave the job unacked: it is retried once the lease expires.
             log.exception("investigation of incident %s failed", incident_id)
             return
         self._release(incident_id)
         self._redis.xack(self._stream, GROUP, entry_id)
+
+    @contextmanager
+    def _heartbeat(self, entry_id: bytes | str, incident_id: UUID) -> Iterator[None]:
+        done = threading.Event()
+        interval = self._lease.total_seconds() / 3
+
+        def beat() -> None:
+            while not done.wait(interval):
+                try:
+                    with self._pool.connection() as conn:
+                        conn.execute("UPDATE incidents SET lease_expires_at = now() + %s"
+                                     " WHERE id = %s AND lease_owner = %s", (self._lease, incident_id, self.name))
+                    # Resets the entry's idle time, so XAUTOCLAIM elsewhere leaves it alone.
+                    self._redis.xclaim(self._stream, GROUP, self.name, 0, [entry_id], justid=True)
+                except Exception:
+                    log.exception("heartbeat for incident %s failed", incident_id)
+
+        thread = threading.Thread(target=beat, name=f"heartbeat-{incident_id}", daemon=True)
+        thread.start()
+        try:
+            yield
+        finally:
+            done.set()
+            thread.join()
 
     def _deliveries(self, entry_id: bytes | str) -> int:
         pending = self._redis.xpending_range(self._stream, GROUP, min=entry_id, max=entry_id, count=1)
