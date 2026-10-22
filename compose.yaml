@@ -7,6 +7,7 @@
 name: oncall
 
 x-oncall-env: &oncall-env
+  ONCALL_LOG_LEVEL: ${ONCALL_LOG_LEVEL:-INFO}
   ONCALL_PROFILE_PATH: /app/profiles/${ONCALL_PROFILE:-otel-demo.yaml}
   ONCALL_DATABASE_URL: postgresql://oncall:oncall@oncall-postgres:5432/oncall
   ONCALL_REDIS_URL: redis://oncall-redis:6379/0

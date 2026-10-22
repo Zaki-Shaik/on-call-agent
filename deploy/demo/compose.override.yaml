@@ -17,10 +17,66 @@ services:
     volumes:
       - jaeger-data:/badger
 
-  # Keep metrics across container recreation (the demo relies on an anonymous volume).
+  # Flag state is runtime data: keep it on a volume, seeded once from the upstream file,
+  # instead of letting flagd-ui rewrite the copy in deploy/demo/upstream on every change.
+  flagd-init:
+    image: busybox:1.37.0
+    container_name: flagd-init
+    command: ["sh", "-c", "[ -f /data/demo.flagd.json ] || cp /seed/demo.flagd.json /data/"]
+    volumes:
+      - ./src/flagd:/seed:ro
+      - flagd-data:/data
+  flagd:
+    volumes:
+      - flagd-data:/etc/flagd
+    depends_on:
+      flagd-init: { condition: service_completed_successfully }
+  flagd-ui:
+    volumes:
+      - flagd-data:/app/data
+    depends_on:
+      flagd-init: { condition: service_completed_successfully }
+
+  # Keep metrics across container recreation (the demo relies on an anonymous volume),
+  # and add our alert rules and Alertmanager. Same flags as upstream except --config.file.
   prometheus:
+    command:
+      - --web.console.templates=/etc/prometheus/consoles
+      - --web.console.libraries=/etc/prometheus/console_libraries
+      - --storage.tsdb.retention.time=7d
+      - --config.file=/etc/prometheus/oncall/prometheus.yaml
+      - --storage.tsdb.path=/prometheus
+      - --web.enable-lifecycle
+      - --web.route-prefix=/
+      - --web.enable-otlp-receiver
+      - --enable-feature=exemplar-storage
+    configs:
+      - source: prometheus-config
+        target: /etc/prometheus/oncall/prometheus.yaml
+      - source: golden-signals-rules
+        target: /etc/prometheus/oncall/rules/golden-signals.rules.yaml
     volumes:
       - prometheus-data:/prometheus
+
+  # Not part of the upstream demo: routes Prometheus alerts to the agent's webhook.
+  alertmanager:
+    image: quay.io/prometheus/alertmanager:v0.30.0
+    container_name: alertmanager
+    command:
+      - --config.file=/etc/alertmanager/alertmanager.yml
+      - --storage.path=/alertmanager
+    configs:
+      - source: alertmanager-config
+        target: /etc/alertmanager/alertmanager.yml
+    ports:
+      - "9093:9093"
+    volumes:
+      - alertmanager-data:/alertmanager
+    deploy:
+      resources:
+        limits:
+          memory: 100M
+    restart: unless-stopped
 
   # Keep logs across container recreation.
   opensearch:
@@ -28,6 +84,8 @@ services:
       - opensearch-data:/usr/share/opensearch/data
 
 volumes:
+  alertmanager-data:
+  flagd-data:
   jaeger-data:
   prometheus-data:
   opensearch-data:

@@ -1,0 +1,37 @@
+{
+  "receiver": "oncall",
+  "status": "firing",
+  "alerts": [
+    {
+      "status": "firing",
+      "labels": {
+        "alertname": "ServiceErrorRateHigh",
+        "service_name": "payment",
+        "severity": "critical"
+      },
+      "annotations": {
+        "summary": "payment: 46.56% of requests failing over 5m"
+      },
+      "startsAt": "2026-10-22T01:13:30.058Z",
+      "endsAt": "0001-01-01T00:00:00Z",
+      "generatorURL": "http://7e12553d4efd:9090/graph?g0.expr=%28sum+by+%28service_name%29+%28rate%28traces_span_metrics_calls_total%7Bspan_kind%3D~%22SPAN_KIND_SERVER%7CSPAN_KIND_CONSUMER%22%2Cstatus_code%3D%22STATUS_CODE_ERROR%22%7D%5B5m%5D%29%29+%2F+sum+by+%28service_name%29+%28rate%28traces_span_metrics_calls_total%7Bspan_kind%3D~%22SPAN_KIND_SERVER%7CSPAN_KIND_CONSUMER%22%7D%5B5m%5D%29%29%29+%3E+0.05+and+sum+by+%28service_name%29+%28increase%28traces_span_metrics_calls_total%7Bspan_kind%3D~%22SPAN_KIND_SERVER%7CSPAN_KIND_CONSUMER%22%2Cstatus_code%3D%22STATUS_CODE_ERROR%22%7D%5B5m%5D%29%29+%3E%3D+3&g0.tab=1",
+      "fingerprint": "1ebf47895ebcfd94"
+    }
+  ],
+  "groupLabels": {
+    "alertname": "ServiceErrorRateHigh",
+    "service_name": "payment"
+  },
+  "commonLabels": {
+    "alertname": "ServiceErrorRateHigh",
+    "service_name": "payment",
+    "severity": "critical"
+  },
+  "commonAnnotations": {
+    "summary": "payment: 46.56% of requests failing over 5m"
+  },
+  "externalURL": "http://3c17b6aef6ad:9093",
+  "version": "4",
+  "groupKey": "{}:{alertname=\"ServiceErrorRateHigh\", service_name=\"payment\"}",
+  "truncatedAlerts": 0
+}

@@ -1,0 +1,15 @@
+# Routes every alert to the on-call agent's webhook.
+
+route:
+  receiver: oncall
+  # One notification group per alert per service; the agent groups into incidents itself.
+  group_by: [alertname, service_name]
+  group_wait: 30s
+  group_interval: 2m
+  repeat_interval: 1h
+
+receivers:
+  - name: oncall
+    webhook_configs:
+      - url: http://oncall-api:8000/webhooks/alertmanager
+        send_resolved: true

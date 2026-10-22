@@ -19,3 +19,7 @@ project.md
 .idea/
 .DS_Store
 Thumbs.db
+
+# OpenTelemetry Demo compose/config files: third-party, copied locally for the dev stack.
+# See deploy/demo/README.md for how to recreate them.
+deploy/demo/upstream/

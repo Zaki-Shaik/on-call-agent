@@ -1,20 +1,23 @@
 # Local dev stack: the OpenTelemetry Demo (our test system) plus our services.
-# The demo is a separate clone outside this repo; set OTEL_DEMO_DIR in .env (see .env.example).
-# With COMPOSE_FILE=compose.demo.yaml in .env, the one command is `docker compose up -d`.
+#   docker compose -f compose.demo.yaml up -d
+# (or set COMPOSE_FILE=compose.demo.yaml in .env and run `docker compose up -d`)
+#
+# The demo's compose and config files are copied unmodified into deploy/demo/upstream/;
+# our changes to its services are in deploy/demo/compose.override.yaml.
 
 name: oncall
 
 include:
   - path:
       # Same layering as the demo's `make start`: full demo + observability stack + extras stub.
-      - ${OTEL_DEMO_DIR:?set OTEL_DEMO_DIR in .env}/compose.yaml
-      - ${OTEL_DEMO_DIR}/compose.full.yaml
-      - ${OTEL_DEMO_DIR}/compose.observability.yaml
-      - ${OTEL_DEMO_DIR}/compose.extras.yaml
+      - ${OTEL_DEMO_DIR:-deploy/demo/upstream}/compose.yaml
+      - ${OTEL_DEMO_DIR:-deploy/demo/upstream}/compose.full.yaml
+      - ${OTEL_DEMO_DIR:-deploy/demo/upstream}/compose.observability.yaml
+      - ${OTEL_DEMO_DIR:-deploy/demo/upstream}/compose.extras.yaml
       - deploy/demo/compose.override.yaml
-    project_directory: ${OTEL_DEMO_DIR}
+    project_directory: ${OTEL_DEMO_DIR:-deploy/demo/upstream}
     env_file:
-      - ${OTEL_DEMO_DIR}/.env
+      - ${OTEL_DEMO_DIR:-deploy/demo/upstream}/.env
       - deploy/demo/demo.env
   - compose.yaml
 
@@ -23,3 +26,9 @@ include:
 configs:
   jaeger-config:
     file: deploy/demo/jaeger/config.yml
+  prometheus-config:
+    file: deploy/demo/prometheus/prometheus.yaml
+  golden-signals-rules:
+    file: deploy/alerting/golden-signals.rules.yaml
+  alertmanager-config:
+    file: deploy/demo/alertmanager/alertmanager.yml

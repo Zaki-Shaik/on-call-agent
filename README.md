@@ -11,15 +11,16 @@ Postgres, Redis).
 Requires Docker Desktop (about 8 GB of memory for the full stack).
 
 ```sh
-# once: clone the demo next to this repo, at the release the profile was written for
-git clone --branch 3.1.0 --depth 1 https://github.com/open-telemetry/opentelemetry-demo.git ../opentelemetry-demo
-cp .env.example .env        # sets COMPOSE_FILE=compose.demo.yaml and OTEL_DEMO_DIR
-
+cp .env.example .env        # once: sets COMPOSE_FILE=compose.demo.yaml
 docker compose up -d
 ```
 
-`compose.demo.yaml` includes the demo's compose files unchanged; our changes to its services
-(persistent trace, metric and log storage; pinned images) are in `deploy/demo/`.
+After changing our code, rebuild only our image: `docker compose build oncall-api && docker compose up -d`.
+Don't use `up --build`: it tries to build the demo's services too, whose source isn't here.
+
+The demo runs from its published images. Only its compose and config files are copied, unmodified,
+into `deploy/demo/upstream/` (git-ignored; see `deploy/demo/README.md`). Our changes to its services (persistent trace, metric and log
+storage; pinned images) are in `deploy/demo/compose.override.yaml` and `deploy/demo/demo.env`.
 
 | What | URL |
 |---|---|
@@ -36,6 +37,7 @@ docker compose up -d
 ```
 compose.yaml           the agent's services (system-agnostic)
 compose.demo.yaml      local dev: OpenTelemetry Demo + compose.yaml
+deploy/demo/upstream/  demo compose + config files (git-ignored copy, 3.1.0)
 deploy/demo/           our changes to demo services
 profiles/              one system profile per monitored system
 src/oncall/            api (FastAPI), worker, profile loader

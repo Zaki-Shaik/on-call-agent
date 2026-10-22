@@ -16,8 +16,8 @@ log = logging.getLogger("oncall.worker")
 
 
 def main() -> None:
-    logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s %(message)s")
     settings = Settings()
+    logging.basicConfig(level=settings.log_level, format="%(asctime)s %(levelname)s %(name)s %(message)s")
     profile = load_profile(settings.profile_path)
     redis.Redis.from_url(settings.redis_url, socket_timeout=5).ping()
     log.info("worker started for profile %s", profile.name)

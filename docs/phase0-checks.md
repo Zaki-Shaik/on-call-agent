@@ -18,7 +18,16 @@ Status legend: **Verified (code)** means confirmed from the demo source or confi
   through Grafana Explore.
 - Security plugin disabled and single node, so plain HTTP with no auth on `opensearch:9200`.
 - Only logs sent over OTLP reach OpenSearch; anything a service writes only to stdout does not.
-  Pending (live): which `service.name` values actually appear in the index.
+- **Verified (live):** the index holds logs from 15 demo services plus `kafka` and the Collector
+  (`otelcol-contrib`). Service field: `resource.service.name.keyword`.
+  - No logs from `flagd`, `flagd-ui` or `image-provider`.
+  - **Upstream bug: the Collector drops some logs.** The OpenSearch exporter hits a mapping
+    conflict (`attributes.http` is text in some records and an object in others). Every log
+    with `http.request.method` is rejected; 177 dropped in the first few minutes. `frontend`
+    is almost entirely missing (2 docs) as a result.
+  - Consequence: the logs backend is lossy, so "no logs" is never evidence. This is consistent
+    with the brief's rule that conclusions need metric or trace support. A fix (index template
+    or a Collector transform) is possible later if `search_logs` needs frontend logs.
 
 **Impact:** the `search_logs` adapter targets OpenSearch (`_search` with aggregations on
 `otel-logs-*`). Recorded in the profile as `backends.logs.type: opensearch`.
@@ -35,7 +44,8 @@ Prometheus's 7-day retention, so a replayed incident has both traces and metrics
 Related gaps found and fixed for the same replay reason: Prometheus and OpenSearch had no named
 volumes, so their data was lost on `docker compose down`. Both now have named volumes.
 
-Pending (live): Jaeger starts with Badger and traces survive a container restart.
+**Verified (live):** Jaeger starts with Badger at `/badger`. A trace written before
+`docker compose up --force-recreate jaeger` is still retrievable afterwards.
 
 ## 3. Does flagd keep a history of flag changes?
 
@@ -46,6 +56,12 @@ Pending (live): Jaeger starts with Badger and traces survive a container restart
 - flagd-ui (Phoenix app) is the only writer. Its `POST /api/write` **replaces the entire file**
   (write-then-rename), keeps no audit trail, and the write is fire-and-forget (`GenServer.cast`):
   the HTTP 200 does not mean the write happened.
+- **Verified (live):** after a write through flagd-ui's API, flagd serves the new variant
+  within **0.5–1 s** (checked through flagd's OFREP endpoint).
+- flagd-ui rewrites the flag file on every change. The demo bind-mounts that file from the
+  repo, so we now keep it on the `flagd-data` volume (seeded once from the upstream copy by a
+  `flagd-init` container). The copied file stays untouched, and flag state survives restarts.
+  Reset it with `docker compose down -v` or by setting flags back to `off`.
 - flagd-ui also has a **Scheduler** tab that can flip flags randomly. It must stay off during
   our runs, or it will create unlabelled incidents.
 
@@ -75,7 +91,20 @@ Two details the flag provider adapter must handle:
 
 ## 4. How do Kafka producer/consumer spans connect?
 
-From the code (Verified (code)). The actual parent vs. link structure is Pending (live).
+**Verified (live): span links, for both consumers.** Neither consumer's span is a child of the
+producer. Each consumed message starts a new trace whose consumer span carries a span link
+(shown by Jaeger as `FOLLOWS_FROM` into another trace) to checkout's `publish orders` span.
+All sampled links resolved to that producer span.
+
+- fraud-detection: `receive orders` (consumer, root of its own trace) → child `process orders`
+  (consumer), which holds the link.
+- accounting: manual `order-consumed` (internal, trace root) → child `receive orders`
+  (consumer), which holds the link.
+
+So **checkout → fraud-detection and checkout → accounting edges exist only through span links,
+across traces.** A map builder that only follows parent/child relations misses Kafka entirely.
+
+What the code showed, for reference:
 
 | Side | Service | Instrumentation | What the code shows |
 |---|---|---|---|
@@ -83,11 +112,10 @@ From the code (Verified (code)). The actual parent vs. link structure is Pending
 | Consumer | fraud-detection (Kotlin) | Java agent, with `OTEL_INSTRUMENTATION_MESSAGING_EXPERIMENTAL_RECEIVE_TELEMETRY_ENABLED=true` | With receive telemetry on, the agent creates `receive` spans, and per-record `process` spans carry a **span link** to the producer span rather than a parent |
 | Consumer | accounting (.NET) | .NET auto-instrumentation for Confluent.Kafka, plus a manual `INTERNAL` span `order-consumed` started *before* `Consume()` | The manual span cannot be parented by the message context. The auto-instrumented consumer span should carry the producer context |
 
-**Expected impact on the map builder:** both shapes need handling.
-- Parent/child (producer span → consumer span).
-- Span links (consumer span → producer span), matched on `messaging.destination.name` as a fallback.
-
-This fits the 2–3 h timebox in the brief. I'll confirm with real spans before Phase 3.
+**Impact on the map builder (Phase 3):** follow span links on consumer spans. Resolve the
+linked span (other trace) to its service, and fall back to `messaging.destination.name` when
+the linked trace is not available. Parent/child handling still covers synchronous calls.
+This fits the 2–3 h timebox.
 
 ## 5. Which signal reveals each failure flag?
 
@@ -115,7 +143,26 @@ Mapping from reading each flag's code (Verified (code)). Confirm live during Pha
 **No signal can see:** `failedReadinessProbe`. Not failures: `emitRawPii`. Not running in our
 stack: `aiRunawayAgent`, `aiSlowResponse` (they need the demo's optional agent layer).
 
-Two caveats for Phase 2:
+**Live flip test (`paymentFailure` → `50%` at 00:43:23 UTC):**
+- flagd served the new value 0.5 s after the write.
+- Jaeger showed payment server spans with errors from the same minute.
+- Prometheus span metrics went from 0 errors to 6 errors against 10 successes over the next
+  ~5 minutes. That's visible in Grafana as payment's error rate rising from zero.
+- Reset to `off` afterwards.
+
+Caveats for Phase 2:
+- **Traffic is low.** With the demo default of 5 simulated users, payment gets roughly
+  3–4 calls per minute. At that rate a 10% failure flag is close to noise, and error-rate
+  baselines are statistically thin. Raising `LOCUST_USERS` (e.g. to 20–30, via `demo.env`)
+  would make the eval more reliable. Your call; it costs CPU.
+- **Span metrics lag about 1 minute** behind Jaeger (connector flush plus Prometheus ingest).
+- **Span metric names** in this deployment: `traces_span_metrics_calls_total` and
+  `traces_span_metrics_duration_milliseconds_*`, with labels `service_name`, `span_kind`,
+  `span_name`, `status_code`. The demo services also emit SDK metrics such as
+  `rpc_server_call_duration_seconds_*`.
+- **`service.version` was wrong.** Every service reported `3.0.0` because the demo's `.env`
+  expands it from its own `IMAGE_VERSION` before our override loads. Fixed in `demo.env`.
+  This matters later if version changes are used as deploy events.
 - **Metric resolution.** The demo does not set `OTEL_METRIC_EXPORT_INTERVAL`, so SDK metrics are
   exported every **60 s** (SDK default). `docker_stats` and `kafkametrics` collect every 10 s.
   Change onset will be accurate to about a minute. If that's too coarse, an env override could

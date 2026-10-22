@@ -51,6 +51,7 @@ class Links(_Strict):
 class AlertMapping(_Strict):
     # Alert label that names the affected service.
     service_label: str
+    severity_label: str = "severity"
 
 
 class FlagProvider(_Strict):

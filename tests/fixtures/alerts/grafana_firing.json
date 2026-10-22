@@ -1,0 +1,51 @@
+{
+  "receiver": "webhook",
+  "status": "firing",
+  "alerts": [
+    {
+      "status": "firing",
+      "labels": {
+        "alertname": "OncallGrafanaTest",
+        "instance": "Grafana",
+        "service_name": "cart",
+        "severity": "warning"
+      },
+      "annotations": {
+        "summary": "test alert from Grafana"
+      },
+      "startsAt": "2026-10-22T01:09:31.890736953Z",
+      "endsAt": "0001-01-01T00:00:00Z",
+      "generatorURL": "",
+      "fingerprint": "d1b8e4c0cb022b3c",
+      "silenceURL": "http://localhost/grafana/alerting/silence/new?alertmanager=grafana&matcher=alertname%3DOncallGrafanaTest&matcher=instance%3DGrafana&matcher=service_name%3Dcart&matcher=severity%3Dwarning",
+      "dashboardURL": "",
+      "panelURL": "",
+      "values": null,
+      "valueString": "[ metric='foo' labels={instance=bar} value=10 ]"
+    }
+  ],
+  "groupLabels": {
+    "alertname": "OncallGrafanaTest",
+    "instance": "Grafana",
+    "service_name": "cart",
+    "severity": "warning"
+  },
+  "commonLabels": {
+    "alertname": "OncallGrafanaTest",
+    "instance": "Grafana",
+    "service_name": "cart",
+    "severity": "warning"
+  },
+  "commonAnnotations": {
+    "summary": "test alert from Grafana"
+  },
+  "externalURL": "http://localhost/grafana/",
+  "appVersion": "13.1.0",
+  "version": "1",
+  "groupKey": "webhook-d1b8e4c0cb022b3c-1792631371",
+  "truncatedAlerts": 0,
+  "orgId": 1,
+  "title": "[FIRING:1] OncallGrafanaTest Grafana cart warning ",
+  "state": "alerting",
+  "message": "**Firing**\n\nValue: [no value]\nLabels:\n - alertname = OncallGrafanaTest\n - instance = Grafana\n - service_name = cart\n - severity = warning\nAnnotations:\n - summary = test alert from Grafana\nSilence: http://localhost/grafana/alerting/silence/new?alertmanager=grafana&matcher=alertname%3DOncallGrafanaTest&matcher=instance%3DGrafana&matcher=service_name%3Dcart&matcher=severity%3Dwarning\n"
+}
