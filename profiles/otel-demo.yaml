@@ -24,6 +24,7 @@ backends:
 links:
   grafana: http://localhost:8080/grafana
   jaeger: http://localhost:8080/jaeger/ui
+  flags: http://localhost:8080/feature/
   # Grafana datasource UIDs, needed to build Explore links.
   grafana_datasources:
     metrics: webstore-metrics
@@ -59,8 +60,11 @@ flags:
     - { name: productCatalogLockContention, values: ["off"] }
     - { name: recommendationCacheFailure, values: ["off"] }
 
-# Signal -> metric name, only where the semantic-convention default does not apply.
+# Metric names, only where the adapter default (span metrics + docker_stats) does not apply.
 metric_overrides: {}
+
+# Container names equal service names in this deployment.
+service_containers: {}
 
 # No runbooks yet.
 runbooks: null

@@ -1,0 +1,8 @@
+{
+ "http_status": 400,
+ "body": {
+  "status": "error",
+  "errorType": "bad_data",
+  "error": "invalid parameter \"query\": 1:10: parse error: unclosed left parenthesis"
+ }
+}

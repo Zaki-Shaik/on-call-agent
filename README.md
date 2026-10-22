@@ -45,6 +45,19 @@ tests/                 pytest, with recorded fixtures
 docs/                  phase notes and check results
 ```
 
+## Calling the agent's tools by hand
+
+```sh
+docker exec oncall-worker python -m oncall.cli incidents
+docker exec oncall-worker python -m oncall.cli metrics  <incident-id> --service payment
+docker exec oncall-worker python -m oncall.cli traces   <incident-id> --service checkout
+docker exec oncall-worker python -m oncall.cli logs     <incident-id> --service payment --min-severity warn
+docker exec oncall-worker python -m oncall.cli changes  <incident-id>
+docker exec oncall-worker python -m oncall.cli evidence <incident-id> [E3]
+```
+
+The window defaults to 15 minutes before the incident opened until now; override with `--start`/`--end`.
+
 ## Tests
 
 ```sh

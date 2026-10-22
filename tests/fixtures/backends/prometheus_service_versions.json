@@ -1,0 +1,205 @@
+{
+ "status": "success",
+ "data": {
+  "resultType": "vector",
+  "result": [
+   {
+    "metric": {
+     "service_name": "email",
+     "service_version": "3.1.0"
+    },
+    "value": [
+     1792641042.852,
+     "3"
+    ]
+   },
+   {
+    "metric": {
+     "service_name": "accounting",
+     "service_version": "3.1.0"
+    },
+    "value": [
+     1792641042.852,
+     "3"
+    ]
+   },
+   {
+    "metric": {
+     "service_name": "checkout",
+     "service_version": "3.1.0"
+    },
+    "value": [
+     1792641042.852,
+     "11"
+    ]
+   },
+   {
+    "metric": {
+     "service_name": "fraud-detection",
+     "service_version": "3.1.0"
+    },
+    "value": [
+     1792641042.852,
+     "2"
+    ]
+   },
+   {
+    "metric": {
+     "service_name": "payment",
+     "service_version": "3.1.0"
+    },
+    "value": [
+     1792641042.852,
+     "6"
+    ]
+   },
+   {
+    "metric": {
+     "service_name": "quote",
+     "service_version": "3.1.0"
+    },
+    "value": [
+     1792641042.852,
+     "3"
+    ]
+   },
+   {
+    "metric": {
+     "service_name": "product-catalog",
+     "service_version": "3.1.0"
+    },
+    "value": [
+     1792641042.852,
+     "3"
+    ]
+   },
+   {
+    "metric": {
+     "service_name": "frontend",
+     "service_version": "3.1.0"
+    },
+    "value": [
+     1792641042.852,
+     "37"
+    ]
+   },
+   {
+    "metric": {
+     "service_name": "ad",
+     "service_version": "3.1.0"
+    },
+    "value": [
+     1792641042.852,
+     "3"
+    ]
+   },
+   {
+    "metric": {
+     "service_name": "cart",
+     "service_version": "3.1.0"
+    },
+    "value": [
+     1792641042.852,
+     "7"
+    ]
+   },
+   {
+    "metric": {
+     "service_name": "recommendation",
+     "service_version": "3.1.0"
+    },
+    "value": [
+     1792641042.852,
+     "3"
+    ]
+   },
+   {
+    "metric": {
+     "service_name": "load-generator",
+     "service_version": "3.1.0"
+    },
+    "value": [
+     1792641042.852,
+     "14"
+    ]
+   },
+   {
+    "metric": {
+     "service_name": "telemetry-docs"
+    },
+    "value": [
+     1792641042.852,
+     "1"
+    ]
+   },
+   {
+    "metric": {
+     "service_name": "frontend-proxy",
+     "service_version": "3.1.0"
+    },
+    "value": [
+     1792641042.852,
+     "6"
+    ]
+   },
+   {
+    "metric": {
+     "service_name": "currency",
+     "service_version": "3.1.0"
+    },
+    "value": [
+     1792641042.852,
+     "2"
+    ]
+   },
+   {
+    "metric": {
+     "service_name": "shipping",
+     "service_version": "3.1.0"
+    },
+    "value": [
+     1792641042.852,
+     "3"
+    ]
+   },
+   {
+    "metric": {
+     "service_name": "frontend-web"
+    },
+    "value": [
+     1792641042.852,
+     "6"
+    ]
+   },
+   {
+    "metric": {
+     "service_name": "image-provider"
+    },
+    "value": [
+     1792641042.852,
+     "2"
+    ]
+   },
+   {
+    "metric": {
+     "service_name": "flagd",
+     "service_version": "3.1.0"
+    },
+    "value": [
+     1792641042.852,
+     "16"
+    ]
+   },
+   {
+    "metric": {
+     "service_name": "flagd-ui",
+     "service_version": "3.1.0"
+    },
+    "value": [
+     1792641042.852,
+     "2"
+    ]
+   }
+  ]
+ }
+}

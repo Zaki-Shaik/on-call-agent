@@ -37,7 +37,7 @@ def database_url() -> str:
 def pool(database_url: str) -> Iterator[ConnectionPool]:
     p = create_pool(database_url)
     with p.connection() as conn:
-        conn.execute("TRUNCATE alerts, incidents RESTART IDENTITY CASCADE")
+        conn.execute("TRUNCATE alerts, evidence, incidents, change_events, observed_state RESTART IDENTITY CASCADE")
     yield p
     p.close()
 

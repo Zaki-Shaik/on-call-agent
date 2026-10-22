@@ -1,0 +1,1085 @@
+{
+ "took": 19,
+ "timed_out": false,
+ "_shards": {
+  "total": 1,
+  "successful": 1,
+  "skipped": 0,
+  "failed": 0
+ },
+ "hits": {
+  "total": {
+   "value": 57,
+   "relation": "eq"
+  },
+  "max_score": null,
+  "hits": [
+   {
+    "_index": "otel-logs-2026-10-22",
+    "_id": "pnO7YaEBGCOJzDRmYpLd",
+    "_score": null,
+    "_source": {
+     "attributes": {
+      "data_stream": {
+       "dataset": "default",
+       "namespace": "namespace",
+       "type": "record"
+      },
+      "service.name": "payment"
+     },
+     "body": "Charge request received.",
+     "instrumentationScope": {
+      "name": "@opentelemetry/instrumentation-pino",
+      "version": "0.66.0"
+     },
+     "observedTimestamp": "2026-10-22T03:50:32.92524557Z",
+     "resource": {
+      "service.criticality": "critical",
+      "service.instance.id": "de61e95c-fe5a-4f8a-97ad-5d3e9e4e7347",
+      "service.name": "payment",
+      "service.namespace": "opentelemetry-demo",
+      "service.version": "3.1.0"
+     },
+     "severity": {
+      "text": "info",
+      "number": 9
+     },
+     "spanId": "c07d7630a76ad457",
+     "@timestamp": "2026-10-22T03:50:31.828Z",
+     "traceId": "2fdcf19996adb1d06ed73ceb8601d238"
+    },
+    "sort": [
+     1792641031828
+    ]
+   },
+   {
+    "_index": "otel-logs-2026-10-22",
+    "_id": "p3O7YaEBGCOJzDRmYpLd",
+    "_score": null,
+    "_source": {
+     "attributes": {
+      "data_stream": {
+       "dataset": "default",
+       "namespace": "namespace",
+       "type": "record"
+      },
+      "exception.message": "Payment request failed. Invalid token. demo.user_context.loyalty_level=gold",
+      "exception.stacktrace": "Error: Payment request failed. Invalid token. demo.user_context.loyalty_level=gold\n    at module.exports.charge (/usr/src/app/charge.js:48:15)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Object.chargeServiceHandler [as charge] (/usr/src/app/index.js:22:22)",
+      "exception.type": "Error",
+      "service.name": "payment"
+     },
+     "body": "Payment request failed. Invalid token. demo.user_context.loyalty_level=gold",
+     "instrumentationScope": {
+      "name": "@opentelemetry/instrumentation-pino",
+      "version": "0.66.0"
+     },
+     "observedTimestamp": "2026-10-22T03:50:32.925260554Z",
+     "resource": {
+      "service.criticality": "critical",
+      "service.instance.id": "de61e95c-fe5a-4f8a-97ad-5d3e9e4e7347",
+      "service.name": "payment",
+      "service.namespace": "opentelemetry-demo",
+      "service.version": "3.1.0"
+     },
+     "severity": {
+      "text": "warn",
+      "number": 13
+     },
+     "spanId": "c07d7630a76ad457",
+     "@timestamp": "2026-10-22T03:50:31.828Z",
+     "traceId": "2fdcf19996adb1d06ed73ceb8601d238"
+    },
+    "sort": [
+     1792641031828
+    ]
+   },
+   {
+    "_index": "otel-logs-2026-10-22",
+    "_id": "-XO7YaEBGCOJzDRmBI5c",
+    "_score": null,
+    "_source": {
+     "attributes": {
+      "data_stream": {
+       "dataset": "default",
+       "namespace": "namespace",
+       "type": "record"
+      },
+      "exception.message": "Payment request failed. Invalid token. demo.user_context.loyalty_level=gold",
+      "exception.stacktrace": "Error: Payment request failed. Invalid token. demo.user_context.loyalty_level=gold\n    at module.exports.charge (/usr/src/app/charge.js:48:15)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Object.chargeServiceHandler [as charge] (/usr/src/app/index.js:22:22)",
+      "exception.type": "Error",
+      "service.name": "payment"
+     },
+     "body": "Payment request failed. Invalid token. demo.user_context.loyalty_level=gold",
+     "instrumentationScope": {
+      "name": "@opentelemetry/instrumentation-pino",
+      "version": "0.66.0"
+     },
+     "observedTimestamp": "2026-10-22T03:50:08.731357026Z",
+     "resource": {
+      "service.criticality": "critical",
+      "service.instance.id": "de61e95c-fe5a-4f8a-97ad-5d3e9e4e7347",
+      "service.name": "payment",
+      "service.namespace": "opentelemetry-demo",
+      "service.version": "3.1.0"
+     },
+     "severity": {
+      "text": "warn",
+      "number": 13
+     },
+     "spanId": "5230153aae4b2bbe",
+     "@timestamp": "2026-10-22T03:50:07.529Z",
+     "traceId": "2ee2ed6a95046f318ac00f7de4598ff3"
+    },
+    "sort": [
+     1792641007529
+    ]
+   },
+   {
+    "_index": "otel-logs-2026-10-22",
+    "_id": "-HO7YaEBGCOJzDRmBI5c",
+    "_score": null,
+    "_source": {
+     "attributes": {
+      "data_stream": {
+       "dataset": "default",
+       "namespace": "namespace",
+       "type": "record"
+      },
+      "service.name": "payment"
+     },
+     "body": "Charge request received.",
+     "instrumentationScope": {
+      "name": "@opentelemetry/instrumentation-pino",
+      "version": "0.66.0"
+     },
+     "observedTimestamp": "2026-10-22T03:50:08.731287409Z",
+     "resource": {
+      "service.criticality": "critical",
+      "service.instance.id": "de61e95c-fe5a-4f8a-97ad-5d3e9e4e7347",
+      "service.name": "payment",
+      "service.namespace": "opentelemetry-demo",
+      "service.version": "3.1.0"
+     },
+     "severity": {
+      "text": "info",
+      "number": 9
+     },
+     "spanId": "5230153aae4b2bbe",
+     "@timestamp": "2026-10-22T03:50:07.528Z",
+     "traceId": "2ee2ed6a95046f318ac00f7de4598ff3"
+    },
+    "sort": [
+     1792641007528
+    ]
+   },
+   {
+    "_index": "otel-logs-2026-10-22",
+    "_id": "9nO6YaEBGCOJzDRm7Y2n",
+    "_score": null,
+    "_source": {
+     "attributes": {
+      "data_stream": {
+       "dataset": "default",
+       "namespace": "namespace",
+       "type": "record"
+      },
+      "exception.message": "Payment request failed. Invalid token. demo.user_context.loyalty_level=gold",
+      "exception.stacktrace": "Error: Payment request failed. Invalid token. demo.user_context.loyalty_level=gold\n    at module.exports.charge (/usr/src/app/charge.js:48:15)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Object.chargeServiceHandler [as charge] (/usr/src/app/index.js:22:22)",
+      "exception.type": "Error",
+      "service.name": "payment"
+     },
+     "body": "Payment request failed. Invalid token. demo.user_context.loyalty_level=gold",
+     "instrumentationScope": {
+      "name": "@opentelemetry/instrumentation-pino",
+      "version": "0.66.0"
+     },
+     "observedTimestamp": "2026-10-22T03:50:02.918796532Z",
+     "resource": {
+      "service.criticality": "critical",
+      "service.instance.id": "de61e95c-fe5a-4f8a-97ad-5d3e9e4e7347",
+      "service.name": "payment",
+      "service.namespace": "opentelemetry-demo",
+      "service.version": "3.1.0"
+     },
+     "severity": {
+      "text": "warn",
+      "number": 13
+     },
+     "spanId": "6f7d8b7708789432",
+     "@timestamp": "2026-10-22T03:50:01.892Z",
+     "traceId": "c17e1210f7dd0ae60cc3854338ce4017"
+    },
+    "sort": [
+     1792641001892
+    ]
+   },
+   {
+    "_index": "otel-logs-2026-10-22",
+    "_id": "9XO6YaEBGCOJzDRm7Y2n",
+    "_score": null,
+    "_source": {
+     "attributes": {
+      "data_stream": {
+       "dataset": "default",
+       "namespace": "namespace",
+       "type": "record"
+      },
+      "service.name": "payment"
+     },
+     "body": "Charge request received.",
+     "instrumentationScope": {
+      "name": "@opentelemetry/instrumentation-pino",
+      "version": "0.66.0"
+     },
+     "observedTimestamp": "2026-10-22T03:50:02.918772808Z",
+     "resource": {
+      "service.criticality": "critical",
+      "service.instance.id": "de61e95c-fe5a-4f8a-97ad-5d3e9e4e7347",
+      "service.name": "payment",
+      "service.namespace": "opentelemetry-demo",
+      "service.version": "3.1.0"
+     },
+     "severity": {
+      "text": "info",
+      "number": 9
+     },
+     "spanId": "6f7d8b7708789432",
+     "@timestamp": "2026-10-22T03:50:01.886Z",
+     "traceId": "c17e1210f7dd0ae60cc3854338ce4017"
+    },
+    "sort": [
+     1792641001886
+    ]
+   },
+   {
+    "_index": "otel-logs-2026-10-22",
+    "_id": "lHO6YaEBGCOJzDRms4st",
+    "_score": null,
+    "_source": {
+     "attributes": {
+      "data_stream": {
+       "dataset": "default",
+       "namespace": "namespace",
+       "type": "record"
+      },
+      "service.name": "payment"
+     },
+     "body": "Charge request received.",
+     "instrumentationScope": {
+      "name": "@opentelemetry/instrumentation-pino",
+      "version": "0.66.0"
+     },
+     "observedTimestamp": "2026-10-22T03:49:47.946907373Z",
+     "resource": {
+      "service.criticality": "critical",
+      "service.instance.id": "de61e95c-fe5a-4f8a-97ad-5d3e9e4e7347",
+      "service.name": "payment",
+      "service.namespace": "opentelemetry-demo",
+      "service.version": "3.1.0"
+     },
+     "severity": {
+      "text": "info",
+      "number": 9
+     },
+     "spanId": "b05feae1ad910a99",
+     "@timestamp": "2026-10-22T03:49:46.744Z",
+     "traceId": "7d105c40b8fb4193df2eb31e728fe78d"
+    },
+    "sort": [
+     1792640986744
+    ]
+   },
+   {
+    "_index": "otel-logs-2026-10-22",
+    "_id": "lXO6YaEBGCOJzDRms4st",
+    "_score": null,
+    "_source": {
+     "attributes": {
+      "amount": {
+       "currencyCode": "USD",
+       "nanos": 639999996,
+       "units": {
+        "high": 0,
+        "low": 329,
+        "unsigned": false
+       }
+      },
+      "cardType": "visa",
+      "data_stream": {
+       "dataset": "default",
+       "namespace": "namespace",
+       "type": "record"
+      },
+      "lastFourDigits": "0454",
+      "loyalty_level": "gold",
+      "service.name": "payment",
+      "transactionId": "b74788eb-6173-4ee2-b771-c52d764099e2"
+     },
+     "body": "Transaction complete.",
+     "instrumentationScope": {
+      "name": "@opentelemetry/instrumentation-pino",
+      "version": "0.66.0"
+     },
+     "observedTimestamp": "2026-10-22T03:49:47.948705396Z",
+     "resource": {
+      "service.criticality": "critical",
+      "service.instance.id": "de61e95c-fe5a-4f8a-97ad-5d3e9e4e7347",
+      "service.name": "payment",
+      "service.namespace": "opentelemetry-demo",
+      "service.version": "3.1.0"
+     },
+     "severity": {
+      "text": "info",
+      "number": 9
+     },
+     "spanId": "b05feae1ad910a99",
+     "@timestamp": "2026-10-22T03:49:46.744Z",
+     "traceId": "7d105c40b8fb4193df2eb31e728fe78d"
+    },
+    "sort": [
+     1792640986744
+    ]
+   },
+   {
+    "_index": "otel-logs-2026-10-22",
+    "_id": "0HO5YaEBGCOJzDRmxYI7",
+    "_score": null,
+    "_source": {
+     "attributes": {
+      "data_stream": {
+       "dataset": "default",
+       "namespace": "namespace",
+       "type": "record"
+      },
+      "exception.message": "Payment request failed. Invalid token. demo.user_context.loyalty_level=gold",
+      "exception.stacktrace": "Error: Payment request failed. Invalid token. demo.user_context.loyalty_level=gold\n    at module.exports.charge (/usr/src/app/charge.js:48:15)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Object.chargeServiceHandler [as charge] (/usr/src/app/index.js:22:22)",
+      "exception.type": "Error",
+      "service.name": "payment"
+     },
+     "body": "Payment request failed. Invalid token. demo.user_context.loyalty_level=gold",
+     "instrumentationScope": {
+      "name": "@opentelemetry/instrumentation-pino",
+      "version": "0.66.0"
+     },
+     "observedTimestamp": "2026-10-22T03:48:47.035054227Z",
+     "resource": {
+      "service.criticality": "critical",
+      "service.instance.id": "de61e95c-fe5a-4f8a-97ad-5d3e9e4e7347",
+      "service.name": "payment",
+      "service.namespace": "opentelemetry-demo",
+      "service.version": "3.1.0"
+     },
+     "severity": {
+      "text": "warn",
+      "number": 13
+     },
+     "spanId": "f46298680494f9f6",
+     "@timestamp": "2026-10-22T03:48:45.917Z",
+     "traceId": "331388f5e001ac7f53f4cf6783bbbe47"
+    },
+    "sort": [
+     1792640925917
+    ]
+   },
+   {
+    "_index": "otel-logs-2026-10-22",
+    "_id": "z3O5YaEBGCOJzDRmxYI7",
+    "_score": null,
+    "_source": {
+     "attributes": {
+      "data_stream": {
+       "dataset": "default",
+       "namespace": "namespace",
+       "type": "record"
+      },
+      "service.name": "payment"
+     },
+     "body": "Charge request received.",
+     "instrumentationScope": {
+      "name": "@opentelemetry/instrumentation-pino",
+      "version": "0.66.0"
+     },
+     "observedTimestamp": "2026-10-22T03:48:47.035001358Z",
+     "resource": {
+      "service.criticality": "critical",
+      "service.instance.id": "de61e95c-fe5a-4f8a-97ad-5d3e9e4e7347",
+      "service.name": "payment",
+      "service.namespace": "opentelemetry-demo",
+      "service.version": "3.1.0"
+     },
+     "severity": {
+      "text": "info",
+      "number": 9
+     },
+     "spanId": "f46298680494f9f6",
+     "@timestamp": "2026-10-22T03:48:45.915Z",
+     "traceId": "331388f5e001ac7f53f4cf6783bbbe47"
+    },
+    "sort": [
+     1792640925915
+    ]
+   },
+   {
+    "_index": "otel-logs-2026-10-22",
+    "_id": "6HO5YaEBGCOJzDRmNH29",
+    "_score": null,
+    "_source": {
+     "attributes": {
+      "data_stream": {
+       "dataset": "default",
+       "namespace": "namespace",
+       "type": "record"
+      },
+      "service.name": "payment"
+     },
+     "body": "Charge request received.",
+     "instrumentationScope": {
+      "name": "@opentelemetry/instrumentation-pino",
+      "version": "0.66.0"
+     },
+     "observedTimestamp": "2026-10-22T03:48:10.044485026Z",
+     "resource": {
+      "service.criticality": "critical",
+      "service.instance.id": "de61e95c-fe5a-4f8a-97ad-5d3e9e4e7347",
+      "service.name": "payment",
+      "service.namespace": "opentelemetry-demo",
+      "service.version": "3.1.0"
+     },
+     "severity": {
+      "text": "info",
+      "number": 9
+     },
+     "spanId": "e276d0ecf44850f5",
+     "@timestamp": "2026-10-22T03:48:08.855Z",
+     "traceId": "88fbb958fdee07b414d916f95247b413"
+    },
+    "sort": [
+     1792640888855
+    ]
+   },
+   {
+    "_index": "otel-logs-2026-10-22",
+    "_id": "6XO5YaEBGCOJzDRmNH29",
+    "_score": null,
+    "_source": {
+     "attributes": {
+      "amount": {
+       "currencyCode": "USD",
+       "nanos": 19999992,
+       "units": {
+        "high": 0,
+        "low": 18935,
+        "unsigned": false
+       }
+      },
+      "cardType": "visa",
+      "data_stream": {
+       "dataset": "default",
+       "namespace": "namespace",
+       "type": "record"
+      },
+      "lastFourDigits": "5647",
+      "loyalty_level": "platinum",
+      "service.name": "payment",
+      "transactionId": "6b2f88c4-95a2-46df-a470-d8ded35b5ca3"
+     },
+     "body": "Transaction complete.",
+     "instrumentationScope": {
+      "name": "@opentelemetry/instrumentation-pino",
+      "version": "0.66.0"
+     },
+     "observedTimestamp": "2026-10-22T03:48:10.044501654Z",
+     "resource": {
+      "service.criticality": "critical",
+      "service.instance.id": "de61e95c-fe5a-4f8a-97ad-5d3e9e4e7347",
+      "service.name": "payment",
+      "service.namespace": "opentelemetry-demo",
+      "service.version": "3.1.0"
+     },
+     "severity": {
+      "text": "info",
+      "number": 9
+     },
+     "spanId": "e276d0ecf44850f5",
+     "@timestamp": "2026-10-22T03:48:08.855Z",
+     "traceId": "88fbb958fdee07b414d916f95247b413"
+    },
+    "sort": [
+     1792640888855
+    ]
+   },
+   {
+    "_index": "otel-logs-2026-10-22",
+    "_id": "rXO4YaEBGCOJzDRm-Xtl",
+    "_score": null,
+    "_source": {
+     "attributes": {
+      "amount": {
+       "currencyCode": "USD",
+       "nanos": 329999989,
+       "units": {
+        "high": 0,
+        "low": 861,
+        "unsigned": false
+       }
+      },
+      "cardType": "visa",
+      "data_stream": {
+       "dataset": "default",
+       "namespace": "namespace",
+       "type": "record"
+      },
+      "lastFourDigits": "3547",
+      "loyalty_level": "gold",
+      "service.name": "payment",
+      "transactionId": "6c471e5a-9239-4374-92ce-8939ed8ca80b"
+     },
+     "body": "Transaction complete.",
+     "instrumentationScope": {
+      "name": "@opentelemetry/instrumentation-pino",
+      "version": "0.66.0"
+     },
+     "observedTimestamp": "2026-10-22T03:47:54.852526517Z",
+     "resource": {
+      "service.criticality": "critical",
+      "service.instance.id": "de61e95c-fe5a-4f8a-97ad-5d3e9e4e7347",
+      "service.name": "payment",
+      "service.namespace": "opentelemetry-demo",
+      "service.version": "3.1.0"
+     },
+     "severity": {
+      "text": "info",
+      "number": 9
+     },
+     "spanId": "484658590285bb59",
+     "@timestamp": "2026-10-22T03:47:53.793Z",
+     "traceId": "4ee9f0fa7850da9a375df4ddec6b47be"
+    },
+    "sort": [
+     1792640873793
+    ]
+   },
+   {
+    "_index": "otel-logs-2026-10-22",
+    "_id": "rHO4YaEBGCOJzDRm-Xtl",
+    "_score": null,
+    "_source": {
+     "attributes": {
+      "data_stream": {
+       "dataset": "default",
+       "namespace": "namespace",
+       "type": "record"
+      },
+      "service.name": "payment"
+     },
+     "body": "Charge request received.",
+     "instrumentationScope": {
+      "name": "@opentelemetry/instrumentation-pino",
+      "version": "0.66.0"
+     },
+     "observedTimestamp": "2026-10-22T03:47:54.852425929Z",
+     "resource": {
+      "service.criticality": "critical",
+      "service.instance.id": "de61e95c-fe5a-4f8a-97ad-5d3e9e4e7347",
+      "service.name": "payment",
+      "service.namespace": "opentelemetry-demo",
+      "service.version": "3.1.0"
+     },
+     "severity": {
+      "text": "info",
+      "number": 9
+     },
+     "spanId": "484658590285bb59",
+     "@timestamp": "2026-10-22T03:47:53.788Z",
+     "traceId": "4ee9f0fa7850da9a375df4ddec6b47be"
+    },
+    "sort": [
+     1792640873788
+    ]
+   },
+   {
+    "_index": "otel-logs-2026-10-22",
+    "_id": "PXO4YaEBGCOJzDRmtXmK",
+    "_score": null,
+    "_source": {
+     "attributes": {
+      "amount": {
+       "currencyCode": "USD",
+       "nanos": 969999999,
+       "units": {
+        "high": 0,
+        "low": 551,
+        "unsigned": false
+       }
+      },
+      "cardType": "visa",
+      "data_stream": {
+       "dataset": "default",
+       "namespace": "namespace",
+       "type": "record"
+      },
+      "lastFourDigits": "1278",
+      "loyalty_level": "bronze",
+      "service.name": "payment",
+      "transactionId": "adfcf22f-c767-4f08-a89b-189d00e0810c"
+     },
+     "body": "Transaction complete.",
+     "instrumentationScope": {
+      "name": "@opentelemetry/instrumentation-pino",
+      "version": "0.66.0"
+     },
+     "observedTimestamp": "2026-10-22T03:47:37.481469336Z",
+     "resource": {
+      "service.criticality": "critical",
+      "service.instance.id": "de61e95c-fe5a-4f8a-97ad-5d3e9e4e7347",
+      "service.name": "payment",
+      "service.namespace": "opentelemetry-demo",
+      "service.version": "3.1.0"
+     },
+     "severity": {
+      "text": "info",
+      "number": 9
+     },
+     "spanId": "07fb0686302b453c",
+     "@timestamp": "2026-10-22T03:47:36.295Z",
+     "traceId": "841a4cbe96a9ba1c30912664eefa2721"
+    },
+    "sort": [
+     1792640856295
+    ]
+   },
+   {
+    "_index": "otel-logs-2026-10-22",
+    "_id": "PHO4YaEBGCOJzDRmtXmK",
+    "_score": null,
+    "_source": {
+     "attributes": {
+      "data_stream": {
+       "dataset": "default",
+       "namespace": "namespace",
+       "type": "record"
+      },
+      "service.name": "payment"
+     },
+     "body": "Charge request received.",
+     "instrumentationScope": {
+      "name": "@opentelemetry/instrumentation-pino",
+      "version": "0.66.0"
+     },
+     "observedTimestamp": "2026-10-22T03:47:37.481446417Z",
+     "resource": {
+      "service.criticality": "critical",
+      "service.instance.id": "de61e95c-fe5a-4f8a-97ad-5d3e9e4e7347",
+      "service.name": "payment",
+      "service.namespace": "opentelemetry-demo",
+      "service.version": "3.1.0"
+     },
+     "severity": {
+      "text": "info",
+      "number": 9
+     },
+     "spanId": "07fb0686302b453c",
+     "@timestamp": "2026-10-22T03:47:36.294Z",
+     "traceId": "841a4cbe96a9ba1c30912664eefa2721"
+    },
+    "sort": [
+     1792640856294
+    ]
+   },
+   {
+    "_index": "otel-logs-2026-10-22",
+    "_id": "QHO3YaEBGCOJzDRm53Ka",
+    "_score": null,
+    "_source": {
+     "attributes": {
+      "amount": {
+       "currencyCode": "USD",
+       "nanos": 849999996,
+       "units": {
+        "high": 0,
+        "low": 332,
+        "unsigned": false
+       }
+      },
+      "cardType": "visa",
+      "data_stream": {
+       "dataset": "default",
+       "namespace": "namespace",
+       "type": "record"
+      },
+      "lastFourDigits": "3547",
+      "loyalty_level": "silver",
+      "service.name": "payment",
+      "transactionId": "117932d8-9424-49f9-80b4-f405bccfbabc"
+     },
+     "body": "Transaction complete.",
+     "instrumentationScope": {
+      "name": "@opentelemetry/instrumentation-pino",
+      "version": "0.66.0"
+     },
+     "observedTimestamp": "2026-10-22T03:46:44.761944249Z",
+     "resource": {
+      "service.criticality": "critical",
+      "service.instance.id": "de61e95c-fe5a-4f8a-97ad-5d3e9e4e7347",
+      "service.name": "payment",
+      "service.namespace": "opentelemetry-demo",
+      "service.version": "3.1.0"
+     },
+     "severity": {
+      "text": "info",
+      "number": 9
+     },
+     "spanId": "f6f66768ff0ed795",
+     "@timestamp": "2026-10-22T03:46:43.746Z",
+     "traceId": "1a5ab23061e2575b66d5d12cb360919b"
+    },
+    "sort": [
+     1792640803746
+    ]
+   },
+   {
+    "_index": "otel-logs-2026-10-22",
+    "_id": "P3O3YaEBGCOJzDRm53Ka",
+    "_score": null,
+    "_source": {
+     "attributes": {
+      "data_stream": {
+       "dataset": "default",
+       "namespace": "namespace",
+       "type": "record"
+      },
+      "service.name": "payment"
+     },
+     "body": "Charge request received.",
+     "instrumentationScope": {
+      "name": "@opentelemetry/instrumentation-pino",
+      "version": "0.66.0"
+     },
+     "observedTimestamp": "2026-10-22T03:46:44.761926465Z",
+     "resource": {
+      "service.criticality": "critical",
+      "service.instance.id": "de61e95c-fe5a-4f8a-97ad-5d3e9e4e7347",
+      "service.name": "payment",
+      "service.namespace": "opentelemetry-demo",
+      "service.version": "3.1.0"
+     },
+     "severity": {
+      "text": "info",
+      "number": 9
+     },
+     "spanId": "f6f66768ff0ed795",
+     "@timestamp": "2026-10-22T03:46:43.745Z",
+     "traceId": "1a5ab23061e2575b66d5d12cb360919b"
+    },
+    "sort": [
+     1792640803745
+    ]
+   },
+   {
+    "_index": "otel-logs-2026-10-22",
+    "_id": "9HO3YaEBGCOJzDRmp29o",
+    "_score": null,
+    "_source": {
+     "attributes": {
+      "data_stream": {
+       "dataset": "default",
+       "namespace": "namespace",
+       "type": "record"
+      },
+      "service.name": "payment"
+     },
+     "body": "Charge request received.",
+     "instrumentationScope": {
+      "name": "@opentelemetry/instrumentation-pino",
+      "version": "0.66.0"
+     },
+     "observedTimestamp": "2026-10-22T03:46:28.328221602Z",
+     "resource": {
+      "service.criticality": "critical",
+      "service.instance.id": "de61e95c-fe5a-4f8a-97ad-5d3e9e4e7347",
+      "service.name": "payment",
+      "service.namespace": "opentelemetry-demo",
+      "service.version": "3.1.0"
+     },
+     "severity": {
+      "text": "info",
+      "number": 9
+     },
+     "spanId": "fa1c9fa6667aed78",
+     "@timestamp": "2026-10-22T03:46:27.247Z",
+     "traceId": "27fd912b73f8571c33e667f441d44318"
+    },
+    "sort": [
+     1792640787247
+    ]
+   },
+   {
+    "_index": "otel-logs-2026-10-22",
+    "_id": "9XO3YaEBGCOJzDRmp29o",
+    "_score": null,
+    "_source": {
+     "attributes": {
+      "amount": {
+       "currencyCode": "USD",
+       "nanos": 939999999,
+       "units": {
+        "high": 0,
+        "low": 138,
+        "unsigned": false
+       }
+      },
+      "cardType": "visa",
+      "data_stream": {
+       "dataset": "default",
+       "namespace": "namespace",
+       "type": "record"
+      },
+      "lastFourDigits": "3547",
+      "loyalty_level": "bronze",
+      "service.name": "payment",
+      "transactionId": "be581fbd-7ec0-4a8b-887f-814e93c4b165"
+     },
+     "body": "Transaction complete.",
+     "instrumentationScope": {
+      "name": "@opentelemetry/instrumentation-pino",
+      "version": "0.66.0"
+     },
+     "observedTimestamp": "2026-10-22T03:46:28.328236262Z",
+     "resource": {
+      "service.criticality": "critical",
+      "service.instance.id": "de61e95c-fe5a-4f8a-97ad-5d3e9e4e7347",
+      "service.name": "payment",
+      "service.namespace": "opentelemetry-demo",
+      "service.version": "3.1.0"
+     },
+     "severity": {
+      "text": "info",
+      "number": 9
+     },
+     "spanId": "fa1c9fa6667aed78",
+     "@timestamp": "2026-10-22T03:46:27.247Z",
+     "traceId": "27fd912b73f8571c33e667f441d44318"
+    },
+    "sort": [
+     1792640787247
+    ]
+   },
+   {
+    "_index": "otel-logs-2026-10-22",
+    "_id": "f3O3YaEBGCOJzDRmgG7B",
+    "_score": null,
+    "_source": {
+     "attributes": {
+      "data_stream": {
+       "dataset": "default",
+       "namespace": "namespace",
+       "type": "record"
+      },
+      "service.name": "payment"
+     },
+     "body": "Charge request received.",
+     "instrumentationScope": {
+      "name": "@opentelemetry/instrumentation-pino",
+      "version": "0.66.0"
+     },
+     "observedTimestamp": "2026-10-22T03:46:18.432184723Z",
+     "resource": {
+      "service.criticality": "critical",
+      "service.instance.id": "de61e95c-fe5a-4f8a-97ad-5d3e9e4e7347",
+      "service.name": "payment",
+      "service.namespace": "opentelemetry-demo",
+      "service.version": "3.1.0"
+     },
+     "severity": {
+      "text": "info",
+      "number": 9
+     },
+     "spanId": "546f73efba148de5",
+     "@timestamp": "2026-10-22T03:46:17.364Z",
+     "traceId": "b7d28a2c6f560019924a1ca3272faf81"
+    },
+    "sort": [
+     1792640777364
+    ]
+   },
+   {
+    "_index": "otel-logs-2026-10-22",
+    "_id": "gHO3YaEBGCOJzDRmgG7B",
+    "_score": null,
+    "_source": {
+     "attributes": {
+      "amount": {
+       "currencyCode": "USD",
+       "nanos": 879999998,
+       "units": {
+        "high": 0,
+        "low": 437,
+        "unsigned": false
+       }
+      },
+      "cardType": "visa",
+      "data_stream": {
+       "dataset": "default",
+       "namespace": "namespace",
+       "type": "record"
+      },
+      "lastFourDigits": "1278",
+      "loyalty_level": "gold",
+      "service.name": "payment",
+      "transactionId": "2a747c10-005a-4a45-b4fe-e400d3123185"
+     },
+     "body": "Transaction complete.",
+     "instrumentationScope": {
+      "name": "@opentelemetry/instrumentation-pino",
+      "version": "0.66.0"
+     },
+     "observedTimestamp": "2026-10-22T03:46:18.432201511Z",
+     "resource": {
+      "service.criticality": "critical",
+      "service.instance.id": "de61e95c-fe5a-4f8a-97ad-5d3e9e4e7347",
+      "service.name": "payment",
+      "service.namespace": "opentelemetry-demo",
+      "service.version": "3.1.0"
+     },
+     "severity": {
+      "text": "info",
+      "number": 9
+     },
+     "spanId": "546f73efba148de5",
+     "@timestamp": "2026-10-22T03:46:17.364Z",
+     "traceId": "b7d28a2c6f560019924a1ca3272faf81"
+    },
+    "sort": [
+     1792640777364
+    ]
+   },
+   {
+    "_index": "otel-logs-2026-10-22",
+    "_id": "bHO3YaEBGCOJzDRmaG2q",
+    "_score": null,
+    "_source": {
+     "attributes": {
+      "amount": {
+       "currencyCode": "USD",
+       "nanos": 900000000,
+       "units": {
+        "high": 0,
+        "low": 36079,
+        "unsigned": false
+       }
+      },
+      "cardType": "visa",
+      "data_stream": {
+       "dataset": "default",
+       "namespace": "namespace",
+       "type": "record"
+      },
+      "lastFourDigits": "0454",
+      "loyalty_level": "platinum",
+      "service.name": "payment",
+      "transactionId": "14ed45a7-4801-41bb-900b-5b4f50a961fc"
+     },
+     "body": "Transaction complete.",
+     "instrumentationScope": {
+      "name": "@opentelemetry/instrumentation-pino",
+      "version": "0.66.0"
+     },
+     "observedTimestamp": "2026-10-22T03:46:12.265999843Z",
+     "resource": {
+      "service.criticality": "critical",
+      "service.instance.id": "de61e95c-fe5a-4f8a-97ad-5d3e9e4e7347",
+      "service.name": "payment",
+      "service.namespace": "opentelemetry-demo",
+      "service.version": "3.1.0"
+     },
+     "severity": {
+      "text": "info",
+      "number": 9
+     },
+     "spanId": "7d63e883d75e4d8a",
+     "@timestamp": "2026-10-22T03:46:11.194Z",
+     "traceId": "4b27666d73be3427fe98ba381b99583d"
+    },
+    "sort": [
+     1792640771194
+    ]
+   },
+   {
+    "_index": "otel-logs-2026-10-22",
+    "_id": "a3O3YaEBGCOJzDRmaG2q",
+    "_score": null,
+    "_source": {
+     "attributes": {
+      "data_stream": {
+       "dataset": "default",
+       "namespace": "namespace",
+       "type": "record"
+      },
+      "service.name": "payment"
+     },
+     "body": "Charge request received.",
+     "instrumentationScope": {
+      "name": "@opentelemetry/instrumentation-pino",
+      "version": "0.66.0"
+     },
+     "observedTimestamp": "2026-10-22T03:46:12.265986945Z",
+     "resource": {
+      "service.criticality": "critical",
+      "service.instance.id": "de61e95c-fe5a-4f8a-97ad-5d3e9e4e7347",
+      "service.name": "payment",
+      "service.namespace": "opentelemetry-demo",
+      "service.version": "3.1.0"
+     },
+     "severity": {
+      "text": "info",
+      "number": 9
+     },
+     "spanId": "7d63e883d75e4d8a",
+     "@timestamp": "2026-10-22T03:46:11.193Z",
+     "traceId": "4b27666d73be3427fe98ba381b99583d"
+    },
+    "sort": [
+     1792640771193
+    ]
+   },
+   {
+    "_index": "otel-logs-2026-10-22",
+    "_id": "4HO3YaEBGCOJzDRmWWzy",
+    "_score": null,
+    "_source": {
+     "attributes": {
+      "data_stream": {
+       "dataset": "default",
+       "namespace": "namespace",
+       "type": "record"
+      },
+      "service.name": "payment"
+     },
+     "body": "Charge request received.",
+     "instrumentationScope": {
+      "name": "@opentelemetry/instrumentation-pino",
+      "version": "0.66.0"
+     },
+     "observedTimestamp": "2026-10-22T03:46:08.497343613Z",
+     "resource": {
+      "service.criticality": "critical",
+      "service.instance.id": "de61e95c-fe5a-4f8a-97ad-5d3e9e4e7347",
+      "service.name": "payment",
+      "service.namespace": "opentelemetry-demo",
+      "service.version": "3.1.0"
+     },
+     "severity": {
+      "text": "info",
+      "number": 9
+     },
+     "spanId": "88f4bbfde216b0f8",
+     "@timestamp": "2026-10-22T03:46:07.397Z",
+     "traceId": "36bb268e531ee4035ee50e0294dfb421"
+    },
+    "sort": [
+     1792640767397
+    ]
+   }
+  ]
+ }
+}

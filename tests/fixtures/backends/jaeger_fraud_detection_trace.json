@@ -1,0 +1,71 @@
+{
+ "data": [
+  {
+   "traceID": "ceff31bfcd87562e57f9ccde5211da80",
+   "spans": [
+    {
+     "traceID": "ceff31bfcd87562e57f9ccde5211da80",
+     "spanID": "2e5fec3b6f83bdf8",
+     "operationName": "receive orders",
+     "references": [],
+     "startTime": 1792640986945471,
+     "duration": 25557,
+     "tags": [
+      {
+       "key": "messaging.destination.name",
+       "type": "string",
+       "value": "orders"
+      },
+      {
+       "key": "span.kind",
+       "type": "string",
+       "value": "consumer"
+      }
+     ],
+     "processID": "p1"
+    },
+    {
+     "traceID": "ceff31bfcd87562e57f9ccde5211da80",
+     "spanID": "347a53c21054a754",
+     "operationName": "process orders",
+     "references": [
+      {
+       "refType": "CHILD_OF",
+       "traceID": "ceff31bfcd87562e57f9ccde5211da80",
+       "spanID": "2e5fec3b6f83bdf8"
+      },
+      {
+       "refType": "FOLLOWS_FROM",
+       "traceID": "7d105c40b8fb4193df2eb31e728fe78d",
+       "spanID": "42022f3e3c8602c2"
+      }
+     ],
+     "startTime": 1792640986971498,
+     "duration": 957,
+     "tags": [
+      {
+       "key": "messaging.destination.name",
+       "type": "string",
+       "value": "orders"
+      },
+      {
+       "key": "span.kind",
+       "type": "string",
+       "value": "consumer"
+      }
+     ],
+     "processID": "p1"
+    }
+   ],
+   "processes": {
+    "p1": {
+     "serviceName": "fraud-detection"
+    }
+   }
+  }
+ ],
+ "total": 0,
+ "limit": 0,
+ "offset": 0,
+ "errors": null
+}

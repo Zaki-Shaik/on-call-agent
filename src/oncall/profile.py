@@ -44,6 +44,8 @@ class Links(_Strict):
 
     grafana: str
     jaeger: str | None = None
+    # Feature flag UI, linked from flag change events.
+    flags: str | None = None
     # Grafana datasource UIDs by role (metrics, traces, logs), for Explore links.
     grafana_datasources: dict[str, str] = Field(default_factory=dict)
 
@@ -95,8 +97,11 @@ class SystemProfile(_Strict):
     alerts: AlertMapping
     # Optional: a system without feature flags gets report-only recommendations.
     flags: Flags | None = None
-    # Optional metric name overrides, keyed by signal. Interpreted by the metrics adapter.
+    # Optional metric name overrides, interpreted by the metrics adapter
+    # (keys: calls, duration, cpu, memory).
     metric_overrides: dict[str, str] = Field(default_factory=dict)
+    # Service name -> container name, where they differ (CPU and memory are per container).
+    service_containers: dict[str, str] = Field(default_factory=dict)
     runbooks: str | None = None
     owners: dict[str, str] = Field(default_factory=dict)
 
