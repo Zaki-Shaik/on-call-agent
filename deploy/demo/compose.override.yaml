@@ -1,0 +1,33 @@
+# Changes to OpenTelemetry Demo services needed by the on-call agent.
+# Merged after the demo's own compose files (see ../../compose.demo.yaml).
+# Relative paths here would resolve against the demo's directory, so our own files are
+# referenced through configs defined in compose.demo.yaml.
+
+services:
+  # Persist traces on disk (Badger) instead of memory, so incidents can be replayed for eval.
+  jaeger:
+    command:
+      - "--config=file:/etc/jaeger/oncall-config.yml"
+    configs:
+      - source: jaeger-config
+        target: /etc/jaeger/oncall-config.yml
+    # Jaeger's image runs as uid 10001 and cannot write to a fresh named volume.
+    # Root is acceptable for this local-only setup.
+    user: "0:0"
+    volumes:
+      - jaeger-data:/badger
+
+  # Keep metrics across container recreation (the demo relies on an anonymous volume).
+  prometheus:
+    volumes:
+      - prometheus-data:/prometheus
+
+  # Keep logs across container recreation.
+  opensearch:
+    volumes:
+      - opensearch-data:/usr/share/opensearch/data
+
+volumes:
+  jaeger-data:
+  prometheus-data:
+  opensearch-data:

@@ -1,0 +1,68 @@
+# Copy of vendor/opentelemetry-demo/src/jaeger/config.yml (demo 3.1.0) with the
+# in-memory trace store replaced by Badger on a volume. Keep the rest in sync on upgrades.
+
+service:
+  extensions: [jaeger_storage, jaeger_query, healthcheckv2]
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [jaeger_storage_exporter]
+  telemetry:
+    resource:
+      service.name: jaeger
+    metrics:
+      level: detailed
+      readers:
+        - periodic:
+            interval: 10000
+            timeout: 5000
+            exporter:
+              otlp:
+                protocol: http/protobuf
+                endpoint: http://${env:OTEL_COLLECTOR_HOST}:${env:OTEL_COLLECTOR_PORT_HTTP}
+                insecure: true
+    logs:
+      level: info
+extensions:
+  healthcheckv2:
+    use_v2: true
+    http:
+      endpoint: 0.0.0.0:13133
+  jaeger_query:
+    storage:
+      traces: badger_backend
+      metrics: metrics_backend
+    base_path: /jaeger/ui
+    ui:
+      config_file: /etc/jaeger/ui-config.json
+  jaeger_storage:
+    backends:
+      badger_backend:
+        badger:
+          directories:
+            keys: /badger/keys
+            values: /badger/values
+          ephemeral: false
+          ttl:
+            # Match Prometheus retention (7d) so replayed incidents have all signals.
+            spans: 168h
+    metric_backends:
+      metrics_backend:
+        prometheus:
+          endpoint: "http://${env:PROMETHEUS_ADDR}"
+          normalize_calls: true
+          normalize_duration: true
+
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: ${env:JAEGER_HOST}:${env:JAEGER_GRPC_PORT}
+
+processors:
+  batch:
+
+exporters:
+  jaeger_storage_exporter:
+    trace_storage: badger_backend

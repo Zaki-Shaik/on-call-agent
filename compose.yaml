@@ -1,0 +1,85 @@
+# The on-call agent's own services. System-agnostic: point it at any OpenTelemetry-instrumented
+# system by writing a profile in profiles/ and setting ONCALL_PROFILE.
+#
+# Our services must share a network with the monitored system's backends. compose.demo.yaml
+# does that for the local OpenTelemetry Demo setup.
+
+name: oncall
+
+x-oncall-env: &oncall-env
+  ONCALL_PROFILE_PATH: /app/profiles/${ONCALL_PROFILE:-otel-demo.yaml}
+  ONCALL_DATABASE_URL: postgresql://oncall:oncall@oncall-postgres:5432/oncall
+  ONCALL_REDIS_URL: redis://oncall-redis:6379/0
+
+services:
+  oncall-postgres:
+    image: postgres:18.4
+    container_name: oncall-postgres
+    environment:
+      POSTGRES_USER: oncall
+      POSTGRES_PASSWORD: oncall
+      POSTGRES_DB: oncall
+    ports:
+      - "5433:5432"
+    volumes:
+      - oncall-postgres-data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U oncall -d oncall"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+
+  oncall-redis:
+    image: redis:8.2-alpine
+    container_name: oncall-redis
+    # Append-only file so queued jobs survive a Redis restart.
+    command: ["redis-server", "--appendonly", "yes"]
+    ports:
+      - "6380:6379"
+    volumes:
+      - oncall-redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+
+  oncall-api:
+    build: .
+    image: oncall:dev
+    container_name: oncall-api
+    environment: *oncall-env
+    ports:
+      - "8000:8000"
+    volumes:
+      # Profiles are mounted so adding a system needs no image rebuild.
+      - ./profiles:/app/profiles:ro
+    depends_on:
+      oncall-postgres: { condition: service_healthy }
+      oncall-redis: { condition: service_healthy }
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/healthz', timeout=2)"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+  oncall-worker:
+    # Same build and tag as oncall-api; the second build is a cache hit.
+    build: .
+    image: oncall:dev
+    container_name: oncall-worker
+    command: ["python", "-m", "oncall.worker"]
+    environment: *oncall-env
+    volumes:
+      - ./profiles:/app/profiles:ro
+    depends_on:
+      oncall-postgres: { condition: service_healthy }
+      oncall-redis: { condition: service_healthy }
+    restart: unless-stopped
+
+volumes:
+  oncall-postgres-data:
+  oncall-redis-data:

@@ -1,0 +1,8 @@
+name: minimal
+backends:
+  metrics: { type: prometheus, url: "http://metrics:9090" }
+  traces: { type: jaeger, url: "http://traces:16686" }
+links:
+  grafana: http://localhost:3000
+alerts:
+  service_label: service

@@ -1,0 +1,4 @@
+# Keep LF everywhere: these files are read by Linux containers.
+* text=auto eol=lf
+*.png binary
+*.gif binary

@@ -1,0 +1,85 @@
+# System profile: OpenTelemetry Demo 3.1.0 under Docker Compose.
+# Everything specific to this system lives here; code must not hardcode any of it.
+# String values may reference environment variables as ${VAR} or ${VAR:-default}.
+
+name: otel-demo
+description: OpenTelemetry Demo (astronomy webstore) 3.1.0, Docker Compose
+
+# API endpoints, as reached from inside the Compose network (api and worker containers).
+backends:
+  metrics:
+    type: prometheus
+    url: ${ONCALL_PROMETHEUS_URL:-http://prometheus:9090}
+  traces:
+    type: jaeger
+    # Jaeger's query API sits under the UI base path in this deployment.
+    url: ${ONCALL_JAEGER_URL:-http://jaeger:16686/jaeger/ui}
+  logs:
+    type: opensearch
+    url: ${ONCALL_OPENSEARCH_URL:-http://opensearch:9200}
+    options:
+      index_pattern: otel-logs-*
+
+# Browser-facing base URLs for evidence deep links.
+links:
+  grafana: http://localhost:8080/grafana
+  jaeger: http://localhost:8080/jaeger/ui
+  # Grafana datasource UIDs, needed to build Explore links.
+  grafana_datasources:
+    metrics: webstore-metrics
+    traces: webstore-traces
+    logs: webstore-logs
+
+alerts:
+  # OTLP resource attribute service.name, as promoted to a label by Prometheus.
+  service_label: service_name
+
+flags:
+  provider:
+    type: flagd_ui
+    url: ${ONCALL_FLAGD_UI_URL:-http://flagd-ui:4000}
+  # The only flags the agent may ever propose setting, and only to these values.
+  # Every entry is limited to "off": the agent can switch a failure scenario off, never on.
+  # Not listed: emitRawPii (not a failure), aiRunawayAgent and aiSlowResponse (the AI
+  # services are not part of our stack).
+  allowed:
+    - { name: adFailure, values: ["off"] }
+    - { name: adHighCpu, values: ["off"] }
+    - { name: adManualGc, values: ["off"] }
+    - { name: cartFailure, values: ["off"] }
+    - { name: emailMemoryLeak, values: ["off"] }
+    - { name: failedReadinessProbe, values: ["off"] }
+    - { name: imageSlowLoad, values: ["off"] }
+    - { name: intlShippingSlowdown, values: ["off"] }
+    - { name: kafkaQueueProblems, values: ["off"] }
+    - { name: loadGeneratorFloodHomepage, values: ["off"] }
+    - { name: paymentFailure, values: ["off"] }
+    - { name: paymentUnreachable, values: ["off"] }
+    - { name: productCatalogFailure, values: ["off"] }
+    - { name: productCatalogLockContention, values: ["off"] }
+    - { name: recommendationCacheFailure, values: ["off"] }
+
+# Signal -> metric name, only where the semantic-convention default does not apply.
+metric_overrides: {}
+
+# No runbooks yet.
+runbooks: null
+
+# Placeholder ownership for the demo's services.
+owners:
+  accounting: payments-team
+  ad: growth-team
+  cart: checkout-team
+  checkout: checkout-team
+  currency: payments-team
+  email: notifications-team
+  fraud-detection: payments-team
+  frontend: web-team
+  frontend-proxy: platform-team
+  image-provider: web-team
+  load-generator: platform-team
+  payment: payments-team
+  product-catalog: catalog-team
+  quote: checkout-team
+  recommendation: growth-team
+  shipping: checkout-team

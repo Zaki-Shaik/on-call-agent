@@ -1,0 +1,25 @@
+# Local dev stack: the OpenTelemetry Demo (our test system) plus our services.
+# The demo is a separate clone outside this repo; set OTEL_DEMO_DIR in .env (see .env.example).
+# With COMPOSE_FILE=compose.demo.yaml in .env, the one command is `docker compose up -d`.
+
+name: oncall
+
+include:
+  - path:
+      # Same layering as the demo's `make start`: full demo + observability stack + extras stub.
+      - ${OTEL_DEMO_DIR:?set OTEL_DEMO_DIR in .env}/compose.yaml
+      - ${OTEL_DEMO_DIR}/compose.full.yaml
+      - ${OTEL_DEMO_DIR}/compose.observability.yaml
+      - ${OTEL_DEMO_DIR}/compose.extras.yaml
+      - deploy/demo/compose.override.yaml
+    project_directory: ${OTEL_DEMO_DIR}
+    env_file:
+      - ${OTEL_DEMO_DIR}/.env
+      - deploy/demo/demo.env
+  - compose.yaml
+
+# Defined here, not in the override file: relative paths in the override resolve against
+# the demo's directory, while paths here resolve against this repo.
+configs:
+  jaeger-config:
+    file: deploy/demo/jaeger/config.yml
